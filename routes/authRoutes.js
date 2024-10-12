@@ -14,6 +14,11 @@ router.post('/register', [
 //  Login Route
 router.post('/login', authController.login);
 
+// Logout route
+router.post('/logout', (req, res) => {
+  res.status(200).json({ msg: 'Logout successful' });
+});
+
 //  Reset Password Route
 router.post('/reset-password', authController.resetPassword);
 

@@ -37,6 +37,7 @@ This project is a Book Exchange Transaction Management system that allows users 
 - **Register**: `POST /api/auth/register`
 - **Login**: `POST /api/auth/login`
 - **Reset Password**: `POST /api/auth/reset-password`
+- **Logout**: `POST /api/auth/logout`
 
 ### Books
 
