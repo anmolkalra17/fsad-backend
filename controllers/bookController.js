@@ -1,10 +1,12 @@
 const Book = require('../models/Book');
+const crypto = require('crypto');
 
 // Add a book
 exports.addBook = async (req, res) => {
     const { title, author, genre, condition, availabile } = req.body;
     try {
         const newBook = new Book({
+            uuid: crypto.randomUUID(),
             user: req.user.id,
             title,
             author,
@@ -80,11 +82,14 @@ exports.getBooks = async (req, res) => {
 exports.getBookById = async (req, res) => {
     const { id } = req.params;
     try {
-        const book = await Book.findById(id);
+        const book = await Book.findOne({ uuid: id});
+        if (!book) {
+            return res.status(404).json({ msg: 'Could not find the requested book' });
+        }
         res.json(book);
     } catch(err) {
         console.error(err.message);
-        res.status(404).send('Could not find the requested book');
+        res.status(500).send('Server error');
     }
 }
 
