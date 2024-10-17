@@ -76,6 +76,18 @@ exports.getBooks = async (req, res) => {
     }
 };
 
+//  Get book by id
+exports.getBookById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const book = await Book.findById(id);
+        res.json(book);
+    } catch {
+        console.error(err.message);
+        res.status(404).send('Could not find the requested book');
+    }
+}
+
 // Search books
 exports.searchBooks = async (req, res) => {
     const { query } = req.query;
