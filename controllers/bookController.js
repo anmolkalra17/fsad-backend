@@ -82,7 +82,7 @@ exports.getBookById = async (req, res) => {
     try {
         const book = await Book.findById(id);
         res.json(book);
-    } catch {
+    } catch(err) {
         console.error(err.message);
         res.status(404).send('Could not find the requested book');
     }
