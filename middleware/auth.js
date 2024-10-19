@@ -28,7 +28,12 @@ module.exports = function(req, res, next) {
 
 //  Check for Authorization header and verify token
 module.exports = async (req, res, next) => {
-  const token = req.header('Authorization').replace('Bearer ', '');
+  const authHeader = req.header('Authorization');
+  if (!authHeader) {
+      return res.status(401).json({ msg: 'Missing auth token, authorization denied' });
+  }
+
+  const token = authHeader.replace('Bearer ', '');
   if (!token) {
       return res.status(401).json({ msg: 'Missing auth token, authorization denied' });
   }

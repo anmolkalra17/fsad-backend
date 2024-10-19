@@ -1,5 +1,8 @@
 const Book = require('../models/Book');
 const crypto = require('crypto');
+const config = require('config');
+
+const apiKey = config.get('apiKey');
 
 // Add a book
 exports.addBook = async (req, res) => {
@@ -88,12 +91,34 @@ exports.getBookById = async (req, res) => {
         if (!book) {
             return res.status(404).json({ msg: 'Could not find the requested book' });
         }
+
+        book.thumbnail = await fetchBookCoverUrl(book.title, book.author);
         res.json(book);
     } catch(err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
 }
+
+//  Get book cover image
+const fetchBookCoverUrl = async (title, author) => {
+    const query = `${title}+inauthor:${author}`;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.items && data.items.length > 0) {
+            const book = data.items[0];
+            return book.volumeInfo.imageLinks.thumbnail;
+        } else {
+            throw new Error('No book found');
+        }
+    } catch (error) {
+        console.error('Error fetching book cover:', error);
+        return null;
+    }
+};
 
 // Search books
 exports.searchBooks = async (req, res) => {

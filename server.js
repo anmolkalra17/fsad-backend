@@ -7,19 +7,19 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
-//  Use the cors middleware
-app.use(cors());
-
 // Middleware
+app.use(cors());
 app.use(bodyParser.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/profiles', userRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
