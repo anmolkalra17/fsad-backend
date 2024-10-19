@@ -26,7 +26,7 @@ const BookSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  availabile: {
+  available: {
     type: Boolean,
     default: true
   },

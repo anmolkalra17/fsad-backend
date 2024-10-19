@@ -3,7 +3,7 @@ const crypto = require('crypto');
 
 // Add a book
 exports.addBook = async (req, res) => {
-    const { title, author, genre, condition, availabile } = req.body;
+    const { title, author, genre, condition, available } = req.body;
     try {
         const newBook = new Book({
             uuid: crypto.randomUUID(),
@@ -12,7 +12,7 @@ exports.addBook = async (req, res) => {
             author,
             genre,
             condition,
-            availabile
+            available
         });
         const book = await newBook.save();
         res.json(book);
@@ -25,7 +25,7 @@ exports.addBook = async (req, res) => {
 //  Edit a book
 exports.editBook = async (req, res) => {
     const { id } = req.params;
-    const { title, author, genre, condition, availabile } = req.body;
+    const { title, author, genre, condition, available } = req.body;
     try {
         let book = await Book.findOne({ uuid: id});
         if (!book) return res.status(404).json({ msg: 'Book not found' });
@@ -37,7 +37,7 @@ exports.editBook = async (req, res) => {
 
         book = await Book.findOneAndUpdate(
             { uuid: id },
-            { $set: { title, author, genre, condition, availabile } },
+            { $set: { title, author, genre, condition, available } },
             { new: true }
         );
 
