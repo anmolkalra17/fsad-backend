@@ -12,7 +12,7 @@ exports.getUserProfile = async (req, res) => {
     }
 
     const books = await Book.find({ user: user });
-    const transactions = await Transaction.find({ user: user }).populate('bookId');
+    const transactions = await Transaction.find({ userId: user });
 
     res.json({ user, books, transactions });
   } catch (err) {
