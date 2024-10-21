@@ -89,11 +89,18 @@ exports.getBookById = async (req, res) => {
     try {
         const book = await Book.findOne({ uuid: id});
         if (!book) {
-            return res.status(404).json({ msg: 'Could not find the requested book' });
+            
+            const bookWithObjectId = await Book.findById(id);
+            bookWithObjectId.thumbnail = await fetchBookCoverUrl(bookWithObjectId.title, bookWithObjectId.author);
+            res.json(bookWithObjectId);
+            
+            if (!bookWithObjectId) {
+                return res.status(404).json({ msg: 'Could not find the requested book' });
+            }
+        } else {
+            book.thumbnail = await fetchBookCoverUrl(book.title, book.author);
+            res.json(book);
         }
-
-        book.thumbnail = await fetchBookCoverUrl(book.title, book.author);
-        res.json(book);
     } catch(err) {
         console.error(err.message);
         res.status(500).send('Server error');
