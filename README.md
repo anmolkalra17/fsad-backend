@@ -45,11 +45,13 @@ This project is a Book Exchange Transaction Management system that allows users 
 - **Edit a Book**: `PUT /api/books/edit/:id`
 - **Delete a Book**: `DELETE /api/books/delete/:id`
 - **Get all Books**: `GET /api/books/`
-- **Search Books**: `GET /api/books/search`
+- **Get Book by Id**: `GET /api/books/:id`
+- **Search Books**: `GET /api/books/search?query=`
 
 ### Transactions
 
 - **Get Transaction History**: `GET /api/transactions/history`
+- **Get User Transactions**: `GET /api/transactions/received`
 - **Create Transaction**: `POST /api/transactions/create`
 - **Update Transaction Status**: `PUT /api/transactions/update/:id`
 - **Cancel Transaction**: `DELETE /api/transactions/cancel/:id`
@@ -68,18 +70,21 @@ This project is a Book Exchange Transaction Management system that allows users 
 
 ### Books
 
+- `uuid`: Unique identifier for a book.
 - `user`: Reference to the user who added the book.
 - `title`: Name of the book.
 - `author`: Author of the book.
 - `genre`: Book genre.
 - `condition`: Book condition.
 - `available`: Book is available or not.
-= `createdAt`: A timestamp when the book was added to the system.
+- `createdAt`: A timestamp when the book was added to the system.
+- `thumbnail`: The book cover fetched from the Google Books API.
 
 ### Transaction
 
 - `userId`: Reference to the user who initiated the transaction.
 - `bookId`: Reference to the book being exchanged.
+- `recipientUserId`: The user to whom the borrow request is sent.
 - `status`: Status of the transaction (`pending`, `accepted`, `completed`, `canceled`).
 - `createdAt`: Timestamp when the transaction was created.
 - `updatedAt`: Timestamp when the transaction was last updated.
