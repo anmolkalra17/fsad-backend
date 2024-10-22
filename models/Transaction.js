@@ -11,6 +11,11 @@ const TransactionSchema = new mongoose.Schema({
         ref: 'Book',
         required: true
     },
+    recipientUserId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     status: {
         type: String,
         enum: ['pending', 'accepted', 'completed', 'canceled'],

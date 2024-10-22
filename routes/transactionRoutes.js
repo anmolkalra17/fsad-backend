@@ -9,6 +9,9 @@ router.post('/create', authMiddleware, transactionController.createTransaction);
 //  Get transaction history route
 router.get('/history', authMiddleware, transactionController.getTransactionHistory);
 
+//  Get received transactions route
+router.get('/received', authMiddleware, transactionController.getReceivedTransactions);
+
 //  Update transaction status route
 router.put('/update/:id', authMiddleware, transactionController.updateTransactionStatus);
 
