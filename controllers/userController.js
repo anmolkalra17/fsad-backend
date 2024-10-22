@@ -12,9 +12,8 @@ exports.getUserProfile = async (req, res) => {
     }
 
     const books = await Book.find({ user: user });
-    const transactions = await Transaction.find({ userId: user });
 
-    res.json({ user, books, transactions });
+    res.json({ user, books });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
