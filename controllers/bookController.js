@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Book = require('../models/Book');
 const crypto = require('crypto');
 const config = require('config');
@@ -31,11 +32,11 @@ exports.editBook = async (req, res) => {
     const { title, author, genre, condition, available } = req.body;
     try {
         let book = await Book.findOne({ uuid: id});
-        if (!book) return res.status(404).json({ msg: 'Book not found' });
+        if (!book) return res.status(404).json({ message: 'Could not find this book.' });
 
         // Ensure user owns the book
         if (book.user.toString() !== req.user.id) {
-            return res.status(401).json({ msg: 'User not authorized' });
+            return res.status(401).json({ message: 'User not authorized to edit this book.' });
         }
 
         book = await Book.findOneAndUpdate(
@@ -56,16 +57,16 @@ exports.deleteBook = async (req, res) => {
     const { id } = req.params;
     try {
         let book = await Book.findOne({ uuid: id});
-        if (!book) return res.status(404).json({ msg: 'Book not found' });
+        if (!book) return res.status(404).json({ message: 'Could not find this book.' });
 
         // Ensure user owns the book
         if (book.user.toString() !== req.user.id) {
-            return res.status(401).json({ msg: 'User not authorized' });
+            return res.status(401).json({ message: 'User not authorized to delete this book.' });
         }
 
         await Book.findOneAndDelete({ uuid: id});
 
-        res.json({ msg: 'Book removed' });
+        res.json({ message: 'Book removed successfully.' });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
@@ -95,7 +96,7 @@ exports.getBookById = async (req, res) => {
             res.json(bookWithObjectId);
             
             if (!bookWithObjectId) {
-                return res.status(404).json({ msg: 'Could not find the requested book' });
+                return res.status(404).json({ message: 'Could not find the requested book.' });
             }
         } else {
             book.thumbnail = await fetchBookCoverUrl(book.title, book.author);
@@ -119,7 +120,7 @@ const fetchBookCoverUrl = async (title, author) => {
             const book = data.items[0];
             return book.volumeInfo.imageLinks.thumbnail;
         } else {
-            throw new Error('No book found');
+            throw new Error('No book found.');
         }
     } catch (error) {
         console.error('Error fetching book cover:', error);

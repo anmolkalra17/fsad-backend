@@ -7,22 +7,22 @@ const jwtSecret = config.get('jwtSecret');
 //  Check for jwtSecret and x-auth-token
 module.exports = function(req, res, next) {
   if (!config.has('jwtSecret')) {
-    return res.status(500).json({ msg: 'Configuration property "jwtSecret" is not defined' });
+    return res.status(500).json({ message: 'Configuration property "jwtSecret" is not defined.' });
   }
 
   const token = req.header('x-auth-token');
 
   if (!token) {
-    return res.status(401).json({ msg: 'Missing auth token, authorization denied' });
+    return res.status(401).json({ message: 'Missing auth token, authorization denied.' });
   }
 
   try {
-    const decoded = jwt.verify(token, jwtSecret);
-    req.user = decoded.user;
+    const decodedData = jwt.verify(token, jwtSecret);
+    req.user = decodedData.user;
     next();
   } catch (err) {
     console.log(err);
-    res.status(401).json({ msg: 'Invalid token' });
+    res.status(401).json({ message: 'Invalid auth token.' });
   }
 };
 
@@ -30,20 +30,20 @@ module.exports = function(req, res, next) {
 module.exports = async (req, res, next) => {
   const authHeader = req.header('Authorization');
   if (!authHeader) {
-      return res.status(401).json({ msg: 'Missing auth token, authorization denied' });
+      return res.status(401).json({ message: 'Missing auth token, authorization denied.' });
   }
 
   const token = authHeader.replace('Bearer ', '');
   if (!token) {
-      return res.status(401).json({ msg: 'Missing auth token, authorization denied' });
+      return res.status(401).json({ message: 'Missing auth token, authorization denied.' });
   }
 
   try {
-      const decoded = jwt.verify(token, jwtSecret);
-      req.user = await User.findById(decoded.user.id).select('-password');
+      const decodedData = jwt.verify(token, jwtSecret);
+      req.user = await User.findById(decodedData.user.id).select('-password');
       next();
   } catch (err) {
       console.error(err.message);
-      res.status(401).json({ msg: 'Invalid token' });
+      res.status(401).json({ message: 'Invalid auth token.' });
   }
 };

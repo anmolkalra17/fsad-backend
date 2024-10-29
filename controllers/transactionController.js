@@ -8,7 +8,7 @@ exports.createTransaction = async (req, res) => {
     try {
 
         if(!req.user) {
-            return res.status(401).json({ msg: 'User not authenticated' });
+            return res.status(401).json({ message: 'User not authenticated to create this transaction.' });
         }
 
         const newTransaction = new Transaction({
@@ -29,7 +29,7 @@ exports.getTransactionHistory = async (req, res) => {
     try {
 
         if(!req.user) {
-            return res.status(401).json({ msg: 'User not authenticated' });
+            return res.status(401).json({ message: 'User not authenticated to create this transaction.' });
         }
 
         const transactions = await Transaction.find({ userId: req.user.id }).populate('bookId');
@@ -60,12 +60,12 @@ exports.updateTransactionStatus = async (req, res) => {
     try {
 
         if(!req.user) {
-            return res.status(401).json({ msg: 'User not authenticated' });
+            return res.status(401).json({ message: 'User not authenticated to create this transaction.' });
         }
 
         const transaction = await Transaction.findById(req.params.id);
         if (!transaction) {
-            return res.status(404).json({ msg: 'Transaction not found' });
+            return res.status(404).json({ message: 'Could not find this transaction.' });
         }
         transaction.status = status;
         transaction.updatedAt = Date.now();
@@ -86,12 +86,12 @@ exports.cancelTransaction = async (req, res) => {
     try {
         
         if(!req.user) {
-            return res.status(401).json({ msg: 'User not authenticated' });
+            return res.status(401).json({ message: 'User not authenticated to create this transaction.' });
         }
         
         const transaction = await Transaction.findById(req.params.id);
         if (!transaction) {
-            return res.status(404).json({ msg: 'Transaction not found' });
+            return res.status(404).json({ message: 'Could not find this transaction.' });
         }
         transaction.status = 'canceled';
         transaction.updatedAt = Date.now();

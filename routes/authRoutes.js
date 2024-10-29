@@ -4,22 +4,25 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-//  Validate input httpBody fields
+//  Register user route
 router.post('/register', [
   check('username', 'Username is required').not().isEmpty(),
   check('email', 'Please include a valid email').isEmail(),
   check('password', 'Password must be 6 or more characters').isLength({ min: 6 }),
 ], authController.register);
 
-//  Login Route
+//  Login route
 router.post('/login', authController.login);
 
 // Logout route
 router.post('/logout', (req, res) => {
-  res.status(200).json({ msg: 'Logout successful' });
+  res.status(200).json({ message: 'Logout successful' });
 });
 
-//  Reset Password Route
+//  Send verification email route
+router.post('/send-verification-email', authController.sendVerificationEmail);
+
+//  Reset password route
 router.post('/reset-password', authController.resetPassword);
 
 module.exports = router;
