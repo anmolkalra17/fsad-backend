@@ -6,9 +6,9 @@ This project is a Book Exchange Transaction Management system that allows users 
 
 ## Features
 
+- **Book Listings**:  Users can browse a collection of books that are shared by others and can request to borrow them.
 - **Transaction History**: Users can view a history of their exchange requests, including pending, accepted, and completed exchanges.
 - **Cancel Pending Exchanges**: Users can cancel pending exchange requests.
-- **Notifications**: Users receive notifications when a transaction status changes (e.g., request accepted, book delivered).
 - **Profile Page**: Transaction history is available to users on their profile page.
 
 ## Installation
@@ -21,9 +21,14 @@ This project is a Book Exchange Transaction Management system that allows users 
 2. **Set up environment variables**:
     Create a `.env` file in the root directory and add the following:
     ```env
-    MONGO_URI=your_mongodb_connection_string
-    JWT_SECRET=your_jwt_secret
+    PORT=8801
+    MONGODB_URI=<your mongodb cluster url> 
+    JWT_SECRET=<your jwt signing secret>
+    GMAIL_USER_EMAIL=<your gmail account email address>
+    GMAIL_USER_APP_PASSWORD=<your gmail account password>
     ```
+
+    **Note: Attaching a MongoDB cluster url is crucial for the backend server to work.**
 
 3. **Run the server**:
     ```bash
